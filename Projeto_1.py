@@ -39,3 +39,18 @@ plt.ylabel('Quantidade de Ocorrências')
 plt.title('Ocorrências de UFOs por Ano')
 plt.show()
 
+
+#Horas
+ocorrencias_hora = dt_ufo['hour'].value_counts().sort_index()
+
+plt.figure(figsize=(10, 6))
+plt.bar(ocorrencias_hora.index, ocorrencias_hora.values)
+plt.xlabel('Hora')
+plt.ylabel('Quantidade de Ocorrências')
+plt.title('Ocorrências de UFOs por Ano')
+plt.show()
+
+#Tipo do avistamento
+tipo_ufo = dt_ufo['shape'].value_counts().sort_index()
+tipo_ufoo = pd.DataFrame(tipo_ufo)
+tipo_ufoo.sort_values('shape', inplace=True, ascending=False)
