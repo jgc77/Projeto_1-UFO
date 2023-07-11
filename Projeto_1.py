@@ -28,3 +28,14 @@ dt_ufo['latitude'] = pd.to_numeric(dt_ufo['latitude'], errors='coerce') #convert
 dt_ufo['date posted'] = pd.to_datetime(dt_ufo['date posted'], errors='coerce') #convertendo a coluna date posted para datetime.
 
 dt_ufo.sort_values('datetime', inplace=True) #Ordenar datetime do mais antigo para o mais recente.
+
+# Numero de ocorrencias por ano
+ocorrencias_ano = dt_ufo['year'].value_counts().sort_index() #contando as ocorrências por ano.
+
+plt.figure(figsize=(10, 6))
+plt.bar(ocorrencias_ano.index, ocorrencias_ano.values)
+plt.xlabel('Ano')
+plt.ylabel('Quantidade de Ocorrências')
+plt.title('Ocorrências de UFOs por Ano')
+plt.show()
+
