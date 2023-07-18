@@ -10,6 +10,7 @@ UFO Sightings
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import geopandas as gpd
 
 #Carregar dataset
 dt_ufo = pd.read_csv('C:\\Users\\joaog\\Documents\\UPE\\LPAA\\Projeto\\Datasets\\scrubbed.csv')
@@ -54,3 +55,8 @@ plt.show()
 tipo_ufo = dt_ufo['shape'].value_counts().sort_index()
 tipo_ufoo = pd.DataFrame(tipo_ufo)
 tipo_ufoo.sort_values('shape', inplace=True, ascending=False)
+
+#mapa
+
+world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+ax = world.plot(figsize=(10, 6),color='gray', edgecolor='white')
