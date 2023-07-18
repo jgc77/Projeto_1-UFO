@@ -29,6 +29,7 @@ dt_ufo['latitude'] = pd.to_numeric(dt_ufo['latitude'], errors='coerce') #convert
 dt_ufo['date posted'] = pd.to_datetime(dt_ufo['date posted'], errors='coerce') #convertendo a coluna date posted para datetime.
 
 dt_ufo.sort_values('datetime', inplace=True) #Ordenar datetime do mais antigo para o mais recente.
+dt_ufo.rename(columns={'longitude ': 'longitude'}, inplace = True)
 
 # Numero de ocorrencias por ano
 ocorrencias_ano = dt_ufo['year'].value_counts().sort_index() #contando as ocorrências por ano.
@@ -56,7 +57,9 @@ tipo_ufo = dt_ufo['shape'].value_counts().sort_index()
 tipo_ufoo = pd.DataFrame(tipo_ufo)
 tipo_ufoo.sort_values('shape', inplace=True, ascending=False)
 
-#mapa
-
+#Mapa de disperção
 world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-ax = world.plot(figsize=(10, 6),color='gray', edgecolor='white')
+ax = world.plot(figsize=(20, 15),color='#B0C4DE', edgecolor='yellow')
+ax.set_xlabel('Longitud')
+ax.set_ylabel('Latitud')
+dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
