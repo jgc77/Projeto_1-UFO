@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import geopandas as gpd
 
+
 #Carregar dataset
 dt_ufo = pd.read_csv('C:\\Users\\joaog\\Documents\\UPE\\LPAA\\Projeto\\Datasets\\scrubbed.csv')
 dt_ufo.info
@@ -27,35 +28,31 @@ dt_ufo['hour'] = pd.DatetimeIndex(dt_ufo['datetime']).hour #Criando uma coluna h
 
 dt_ufo['latitude'] = pd.to_numeric(dt_ufo['latitude'], errors='coerce') #convertendo a coluna latitude para numeros.
 dt_ufo['date posted'] = pd.to_datetime(dt_ufo['date posted'], errors='coerce') #convertendo a coluna date posted para datetime.
-
+dt_ufo['shape'] = dt_ufo['shape'].str.replace('Other', 'Other/Unknown') #retirando other, unknow do shape.
 dt_ufo.sort_values('datetime', inplace=True) #Ordenar datetime do mais antigo para o mais recente.
 dt_ufo.rename(columns={'longitude ': 'longitude'}, inplace = True)
+
+#############################Avistamentos#####################################
 
 # Numero de ocorrencias por ano
 ocorrencias_ano = dt_ufo['year'].value_counts().sort_index() #contando as ocorrências por ano.
 
 plt.figure(figsize=(10, 6))
-plt.bar(ocorrencias_ano.index, ocorrencias_ano.values)
+plt.bar(ocorrencias_ano.index, ocorrencias_ano.values, color='green')
 plt.xlabel('Ano')
 plt.ylabel('Quantidade de Ocorrências')
 plt.title('Ocorrências de UFOs por Ano')
 plt.show()
 
-
-#Horas
+#Horas com mais avistamentos
 ocorrencias_hora = dt_ufo['hour'].value_counts().sort_index()
 
 plt.figure(figsize=(10, 6))
-plt.bar(ocorrencias_hora.index, ocorrencias_hora.values)
+plt.bar(ocorrencias_hora.index, ocorrencias_hora.values, color='red')
 plt.xlabel('Hora')
 plt.ylabel('Quantidade de Ocorrências')
 plt.title('Ocorrências de UFOs por Ano')
 plt.show()
-
-#Tipo do avistamento
-tipo_ufo = dt_ufo['shape'].value_counts().sort_index()
-tipo_ufoo = pd.DataFrame(tipo_ufo)
-tipo_ufoo.sort_values('shape', inplace=True, ascending=False)
 
 #Mapa de disperção
 world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
@@ -63,3 +60,8 @@ ax = world.plot(figsize=(20, 15),color='#B0C4DE', edgecolor='yellow')
 ax.set_xlabel('Longitud')
 ax.set_ylabel('Latitud')
 dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
+
+#Tipo do avistamento
+ocorrencias_tipo = pd.DataFrame(dt_ufo['shape'].value_counts().head(6)).reset_index()
+ocorrencias_tipo.sort_values('shape', inplace=True, ascending=False)
+
