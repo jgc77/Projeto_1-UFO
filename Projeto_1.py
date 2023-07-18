@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import geopandas as gpd
-
-
+from plot_colorful_barchart import Plot_color
+    
 #Carregar dataset
 dt_ufo = pd.read_csv('C:\\Users\\joaog\\Documents\\UPE\\LPAA\\Projeto\\Datasets\\scrubbed.csv')
 dt_ufo.info
@@ -64,4 +64,5 @@ dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
 #Tipo do avistamento
 ocorrencias_tipo = pd.DataFrame(dt_ufo['shape'].value_counts().head(6)).reset_index()
 ocorrencias_tipo.sort_values('shape', inplace=True, ascending=False)
+
 
