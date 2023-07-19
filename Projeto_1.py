@@ -6,7 +6,7 @@ UFO Sightings
 @author: joaog
 
 """
-
+import matplotlib.cm as cm
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -62,11 +62,13 @@ ax.set_ylabel('Latitud')
 dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
 
 #Tipo do avistamento
-ocorrencias_tipo = dt_ufo['shape'].value_counts().head(6).reset_index()
-ocorrencias_tipo.sort_values('shape', inplace=True, ascending=False)
+ocorrencias_tipo = dt_ufo['shape'].value_counts().head(6)#.reset_index()
+#ocorrencias_tipo.sort_values('shape', inplace=True, ascending=False)
 
-from plot_color import Plot_color
+#from plot_color import Plot_color
 
-valores = [10, 20, 30, 40, 50]
-Plot_color.plot_cbar(data=ocorrencias_tipo, colormap='viridis', title='Gráfico de Barras', xlabel='Eixo X', ylabel='Eixo Y', rotation=45)
+#Plot_color.c_bar(data=ocorrencias_tipo, colormap='Blues', title='Ocorrências de UFOs por Formato', xlabel='Formato', ylabel='Quantidade de Ocorrências')
+
+# Crie a série 'ocorrencias_tipo' com os dados desejados
+
 

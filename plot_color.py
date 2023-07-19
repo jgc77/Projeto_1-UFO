@@ -12,7 +12,7 @@ import pandas as pd
 
 
 class Plot_color:
-    def plot_cbar(data, colormap='Blues', title='', xlabel='', ylabel='', rotation=0):
+    def c_bar(data, colormap='Blues', title='', xlabel='', ylabel='', rotation=0):
         # Criar um DataFrame com os dados
         df = pd.DataFrame(data, columns=['values'])
 
