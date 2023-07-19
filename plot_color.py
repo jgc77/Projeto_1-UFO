@@ -25,3 +25,5 @@ class Plot_color:
         plt.title(title)
         plt.xlabel(xlable)
         plt.ylabel(ylable)
+        
+     
