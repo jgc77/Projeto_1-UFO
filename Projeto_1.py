@@ -65,9 +65,9 @@ dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
 ocorrencias_tipo = dt_ufo['shape'].value_counts().head(6)#.reset_index()
 #ocorrencias_tipo.sort_values('shape', inplace=True, ascending=False)
 
-#from plot_color import Plot_color
+from plot_color import Plot_color
 
-#Plot_color.c_bar(data=ocorrencias_tipo, colormap='Blues', title='Ocorrências de UFOs por Formato', xlabel='Formato', ylabel='Quantidade de Ocorrências')
+Plot_color.c_bar(data=ocorrencias_tipo, colormap='Blues', title='Ocorrências de UFOs por Formato', xlabel='Formato', ylabel='Quantidade de Ocorrências')
 
 # Crie a série 'ocorrencias_tipo' com os dados desejados
 
