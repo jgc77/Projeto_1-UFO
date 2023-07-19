@@ -11,6 +11,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import geopandas as gpd
+from plot_color import Plot_color
+
 #from plot_colorful_barchart import Plot_color
     
 #Carregar dataset
@@ -54,21 +56,14 @@ plt.ylabel('Quantidade de Ocorrências')
 plt.title('Ocorrências de UFOs por Ano')
 plt.show()
 
+#Tipos do avistamentos
+ocorrencias_tipo = dt_ufo['shape'].value_counts().head(6)#.reset_index()
+Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'tipo do avistamento', 'Quantidade')
+
 #Mapa de disperção
 world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 ax = world.plot(figsize=(20, 15),color='#B0C4DE', edgecolor='yellow')
 ax.set_xlabel('Longitud')
 ax.set_ylabel('Latitud')
 dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
-
-#Tipo do avistamento
-ocorrencias_tipo = dt_ufo['shape'].value_counts().head(6)#.reset_index()
-#ocorrencias_tipo.sort_values('shape', inplace=True, ascending=False)
-
-from plot_color import Plot_color
-
-Plot_color.c_bar(data=ocorrencias_tipo, colormap='Blues', title='Ocorrências de UFOs por Formato', xlabel='Formato', ylabel='Quantidade de Ocorrências')
-
-# Crie a série 'ocorrencias_tipo' com os dados desejados
-
 
