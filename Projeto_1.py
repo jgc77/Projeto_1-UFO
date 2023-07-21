@@ -38,27 +38,15 @@ dt_ufo.rename(columns={'longitude ': 'longitude'}, inplace = True)
 
 # Numero de ocorrencias por ano
 ocorrencias_ano = dt_ufo['year'].value_counts().sort_index() #contando as ocorrências por ano.
-
-plt.figure(figsize=(10, 6))
-plt.bar(ocorrencias_ano.index, ocorrencias_ano.values, color='green')
-plt.xlabel('Ano')
-plt.ylabel('Quantidade de Ocorrências')
-plt.title('Ocorrências de UFOs por Ano')
-plt.show()
+Plot_color.bar(ocorrencias_ano, 'green', 'Quantidade de Ufos por Ano', 'Ano', 'Quantidade de ocorrências', 0)
 
 #Horas com mais avistamentos
 ocorrencias_hora = dt_ufo['hour'].value_counts().sort_index()
-
-plt.figure(figsize=(10, 6))
-plt.bar(ocorrencias_hora.index, ocorrencias_hora.values, color='red')
-plt.xlabel('Hora')
-plt.ylabel('Quantidade de Ocorrências')
-plt.title('Ocorrências de UFOs por Ano')
-plt.show()
+Plot_color.linha(ocorrencias_hora, 'red', 'Quantidade de Ufos por hora', 'Hora', 'Quantidade de ocorrências', 0, True)
 
 #Tipos do avistamentos
-ocorrencias_tipo = dt_ufo['shape'].value_counts().head(6)#.reset_index()
-Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'tipo do avistamento', 'Quantidade')
+ocorrencias_tipo = dt_ufo['shape'].value_counts().head(15)
+Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do avistamento', 'Quantidade', 45, True)
 
 #Mapa de disperção
 world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
@@ -66,4 +54,5 @@ ax = world.plot(figsize=(20, 15),color='#B0C4DE', edgecolor='yellow')
 ax.set_xlabel('Longitud')
 ax.set_ylabel('Latitud')
 dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
+
 
