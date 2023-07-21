@@ -14,7 +14,7 @@ import pandas as pd
 class Plot_color:
     
     #Função para plotar em degrade
-    def c_bar(data, colormap, title, xlabel, ylabel, rt):
+    def c_bar(data, colormap, title, xlabel, ylabel, rt, grid):
         
         #Definindo tamanho e dpi do gráfico
         plt.figure(figsize=(10, 6), dpi=300)
@@ -29,6 +29,7 @@ class Plot_color:
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
+        plt.grid(grid)
         
         # Adicionando legenda de cores (colorbar)
         sm = plt.cm.ScalarMappable(cmap=colormap, norm=plt.Normalize(vmin=np.min(data), vmax=np.max(data)))
@@ -39,7 +40,7 @@ class Plot_color:
         plt.xticks(rotation=rt)
     
     #Função para plotar em barra
-    def bar(data, cor, title ,xlabel, ylabel, rt):
+    def bar(data, cor, title ,xlabel, ylabel, rt, grid):
         
         #Definindo tamanho e dpi do gráfico
         plt.figure(figsize=(10, 6), dpi=300)
@@ -51,6 +52,28 @@ class Plot_color:
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
         plt.title(title)
+        plt.grid(grid)
 
         #Rotação
         plt.xticks(rotation=rt)
+        
+    #Função para plotar em linha
+    def linha(data, cor, title ,xlabel, ylabel, rt, grid):
+        
+        #Definindo tamanho e dpi do gráfico
+        plt.figure(figsize=(10, 6), dpi=300)
+        
+        #Criação do gráfico de barras
+        plt.plot(data.index, data.values, color=cor)
+        
+        #Legendas
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title(title)
+        plt.grid(grid)
+        
+        #Rotação
+        plt.xticks(rotation=rt)
+        
+    #def mapa(data,)
+    
