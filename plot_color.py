@@ -12,6 +12,8 @@ import pandas as pd
 
 
 class Plot_color:
+    
+    #Função para plotar em degrade
     def c_bar(data, colormap, title, xlabel, ylabel, rt):
         
         #Definindo tamanho e dpi do gráfico
@@ -23,6 +25,7 @@ class Plot_color:
         # Criação do gráfico de barras com degradê de cores
         plt.bar(data.index, data.values, color=colormap(norm_valores))
         
+        #Legendas
         plt.title(title)
         plt.xlabel(xlabel)
         plt.ylabel(ylabel)
@@ -32,5 +35,22 @@ class Plot_color:
         sm._A = []  
         plt.colorbar(sm, ax=plt.gca(), pad=0.05)
         
+        #Rotação
+        plt.xticks(rotation=rt)
+    
+    #Função para plotar em barra
+    def bar(data, cor, title ,xlabel, ylabel, rt):
+        
+        #Definindo tamanho e dpi do gráfico
+        plt.figure(figsize=(10, 6), dpi=300)
+        
+        #Criação do gráfico de barras
+        plt.bar(data.index, data.values, color=cor)
+        
+        #Legendas
+        plt.xlabel(xlabel)
+        plt.ylabel(ylabel)
+        plt.title(title)
+
         #Rotação
         plt.xticks(rotation=rt)
