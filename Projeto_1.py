@@ -17,7 +17,7 @@ from plot_color import Plot_color
 #from plot_colorful_barchart import Plot_color
     
 #Carregar dataset
-dt_ufo = pd.read_csv('C:\\Users\\joaog\\Documents\\UPE\\LPAA\\Projeto\\Datasets\\scrubbed.csv')
+dt_ufo = pd.read_csv(r'C:\Users\joaog\Documents\UPE\LPAA\Projeto\Projeto_1-UFO\dataset.csv')
 dt_ufo.info
 
 # Convertendo dados e ordenando
