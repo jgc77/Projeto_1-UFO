@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import numpy as np
 import pandas as pd
-
+import geopandas as gpd
 
 
 class Plot_color:
@@ -46,7 +46,7 @@ class Plot_color:
         plt.figure(figsize=(10, 6), dpi=300)
         
         #Criação do gráfico de barras
-        plt.bar(data.index, data.values, color=cor)
+        plt.barh(data.index, data.values, color=cor)
         
         #Legendas
         plt.xlabel(xlabel)
@@ -75,5 +75,14 @@ class Plot_color:
         #Rotação
         plt.xticks(rotation=rt)
         
-    #def mapa(data,)
-    
+     
+   #Função para plotar mapa    
+    def mapa(data,eixo1, eixo2, xlabel, ylabel):
+        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+        
+        ax = world.plot(figsize=(20, 15),color='#B0C4DE', edgecolor='yellow')
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        data.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', s=1)
+        
+  
