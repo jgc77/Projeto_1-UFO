@@ -77,12 +77,39 @@ class Plot_color:
         
      
    #Função para plotar mapa    
-    def mapa(data,eixo1, eixo2, xlabel, ylabel):
+    def mapa(data,eixo1, eixo2):
+        
+        #importar mapa mundi
         world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
         
-        ax = world.plot(figsize=(20, 15),color='#B0C4DE', edgecolor='yellow')
+        #plotar mapa mundi
+        ax = world.plot(figsize=(40, 35),color='#DCDCDC', edgecolor='k')
+        ax.set_facecolor('#B0C4DE')
+               
+        #legendas
+        ax.set_xticks([])
+        ax.set_yticks([])
+        
+        #plotar marcadores
+        data.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='y', marker='.', s=20, edgecolor='b', linewidth=0.4)
+      
+    def mapa_us(data,eixo1, eixo2, xlabel, ylabel):
+        
+        #Filtar Estados Unidos de data
+        data_us = data[data['country'] == 'us']
+        
+        #Importar mapa dos Estados Unidos
+        usa_states = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+        usa_states = usa_states[usa_states['name'].isin(['United States of America'])]
+
+        #plotar mapa dos Estados Unidos
+        ax = usa_states.plot(figsize=(25, 20),color='#DCDCDC', edgecolor='k')
+        ax.set_facecolor('#B0C4DE')
+
+        #legendas
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
-        data.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', s=1)
         
-  
+        #plotar marcadores
+        data_us.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', marker='.', s=20, edgecolor='b', linewidth=0.4)
+        
