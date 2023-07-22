@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import geopandas as gpd
 from plot_color import Plot_color
 
+
 #from plot_colorful_barchart import Plot_color
     
 #Carregar dataset
@@ -38,7 +39,7 @@ dt_ufo.rename(columns={'longitude ': 'longitude'}, inplace = True)
 
 # Numero de ocorrencias por ano
 ocorrencias_ano = dt_ufo['year'].value_counts().sort_index() #contando as ocorrências por ano.
-Plot_color.bar(ocorrencias_ano, 'green', 'Quantidade de Ufos por Ano', 'Ano', 'Quantidade de ocorrências', 0)
+Plot_color.bar(ocorrencias_ano, 'green', 'Avistamento por Ano', 'Quantidade de ocorrências', 'Ano', 0, True)
 
 #Horas com mais avistamentos
 ocorrencias_hora = dt_ufo['hour'].value_counts().sort_index()
@@ -46,13 +47,11 @@ Plot_color.linha(ocorrencias_hora, 'red', 'Quantidade de Ufos por hora', 'Hora',
 
 #Tipos do avistamentos
 ocorrencias_tipo = dt_ufo['shape'].value_counts().head(15)
-Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do avistamento', 'Quantidade', 45, True)
+Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do avistamento', 'Quantidade', 45, False)
 
 #Mapa de disperção
-world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-ax = world.plot(figsize=(20, 15),color='#B0C4DE', edgecolor='yellow')
-ax.set_xlabel('Longitud')
-ax.set_ylabel('Latitud')
-dt_ufo.plot.scatter(x='longitude', y='latitude', ax=ax, color='red', s=1)
+Plot_color.mapa(dt_ufo,'longitude', 'latitude')
+Plot_color.mapa_us(dt_ufo,'longitude', 'latitude', 'longitude', 'latitude')
+
 
 
