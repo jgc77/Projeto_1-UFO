@@ -116,24 +116,17 @@ class Plot_color:
         data_us.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', marker='.', s=20, edgecolor='b', linewidth=0.4)
     
     #Plotar grafico em pizza com distribuição de ocorrencias por continente 
-    def c_ocorren(data, colors):    
+    def c_ocorren(data, colors, title):    
         
-       count_us = (data['country'] == 'us').sum()
-       count_others = (data['country'] != 'us').sum()
-       
-       # Calcular as porcentagens
-       total = len(data)
-       percent_us = (count_us / total) * 100
-       percent_others = (count_others / total) * 100
-
-       # Criar um DataFrame com as porcentagens
-       porcentagens = pd.DataFrame({'Tipo': ['EUA', 'Outros'],
-                                    'Porcentagem': [percent_us, percent_others]})
+        plt.subplots(figsize=(18, 10))
+        explode = (0.1,0.1,0.2,0.4,0.7)
+        labels = ['United States', 'Canada', 'United Kingdom', 'Australia', 'Germany']
         
-       # Plotar o gráfico de pizza
-       plt.figure(figsize=(8, 8))
-       plt.pie(porcentagens['Porcentagem'], labels=porcentagens['Tipo'], autopct='%1.1f%%', colors=colors)
-       plt.title('Porcentagem de Ocorrências nos EUA e Outros Países')
-       plt.axis('equal')
-
+        
+        plt.pie(data, explode=explode, colors= colors, autopct='%1.1f%%', textprops={'fontsize': 12}, labels= None, shadow=True)
+        
+        plt.legend(labels=labels, loc='lower right')
+        plt.title(title, fontsize = 20)
+        plt.axis('equal')
+        plt.xticks(rotation=45, fontsize=15)
        
