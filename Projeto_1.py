@@ -12,13 +12,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import geopandas as gpd
 from plot_color import Plot_color
+from geopy.geocoders import Nominatim
 
 
 #from plot_colorful_barchart import Plot_color
     
 #Carregar dataset
 dt_ufo = pd.read_csv(r'C:\Users\joaog\Documents\UPE\LPAA\Projeto\Projeto_1-UFO\dataset.csv')
-dt_ufo.info
+
 
 # Convertendo dados e ordenando
 dt_ufo['datetime'] = dt_ufo['datetime'].str.replace('24:00', '0:00') #alterando a hora 24:00 para 00:00.
@@ -53,5 +54,16 @@ Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do
 Plot_color.mapa(dt_ufo,'longitude', 'latitude')
 Plot_color.mapa_us(dt_ufo,'longitude', 'latitude', 'longitude', 'latitude')
 
-Plot_color.c_ocorren(dt_ufo)
-ocorrencias_por_continente = dt_ufo['continent'].value_counts()
+dt_sem_duplicados = dt_ufo.drop_duplicates(subset=['latitude', 'longitude'])
+Plot_color.c_ocorren(dt_sem_duplicados)
+
+def obter_pais(latitude, longitude):
+    geolocator = Nominatim(user_agent="conversor_geopy")
+    localizacao = geolocator.reverse((latitude, longitude), exactly_one=True)
+    if localizacao:
+        return localizacao.raw.get('address', {}).get('country', 'Desconhecido')
+    else:
+        return 'Desconhecido'
+    
+# Criar uma nova coluna 'Pais' no DataFrame com os países das coordenadas
+dt_sem_duplicados['Pais'] = dt_sem_duplicados.apply(lambda row: obter_pais(row['latitude'], row['longitude']), axis=1)

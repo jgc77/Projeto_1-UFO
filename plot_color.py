@@ -11,6 +11,7 @@ import pandas as pd
 import geopandas as gpd
 
 
+
 class Plot_color:
     
     #Função para plotar em degrade
@@ -115,27 +116,24 @@ class Plot_color:
         data_us.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', marker='.', s=20, edgecolor='b', linewidth=0.4)
     
     #Plotar grafico em pizza com distribuição de ocorrencias por continente 
-    def c_ocorren(data):    
-        def get_continent(latitude, longitude):
+    def c_ocorren(data, colors):    
         
-            #if pd.notna(latitude) and pd.notna(longitude):
-                if -60 <= latitude <= 85 and ((-170 <= longitude <= -35) or (35 <= longitude <= 170)):
-                    return 'Americas'
-                elif -60 <= latitude <= 85:
-                    return 'Eurasia'
-                elif -60 <= latitude <= -35 and 30 <= longitude <= 150:
-                    return 'Africa'
-                elif -60 <= latitude <= 85 and -30 <= longitude <= 180:
-                    return 'Europe'
-                elif -60 <= latitude <= 85 and -180 <= longitude <= -90:
-                    return 'Australia'
-                return 'Other'
-    
-    
-        data['continent'] = data.apply(lambda row: get_continent(row['latitude'], row['longitude']), axis=1)
-        ocorrencias_por_continente = data['continent'].value_counts()
+       count_us = (data['country'] == 'us').sum()
+       count_others = (data['country'] != 'us').sum()
+       
+       # Calcular as porcentagens
+       total = len(data)
+       percent_us = (count_us / total) * 100
+       percent_others = (count_others / total) * 100
 
-        plt.figure(figsize=(15, 15))
-        ocorrencias_por_continente.plot(kind='pie', autopct='%1.1f%%', colors=['skyblue', 'lightgreen', 'lightcoral', 'lightyellow', 'lightpink', 'lightgray'])
-        plt.title('Distribuição das Ocorrências de UFOs por Continente')
-        plt.axis('equal')
+       # Criar um DataFrame com as porcentagens
+       porcentagens = pd.DataFrame({'Tipo': ['EUA', 'Outros'],
+                                    'Porcentagem': [percent_us, percent_others]})
+        
+       # Plotar o gráfico de pizza
+       plt.figure(figsize=(8, 8))
+       plt.pie(porcentagens['Porcentagem'], labels=porcentagens['Tipo'], autopct='%1.1f%%', colors=colors)
+       plt.title('Porcentagem de Ocorrências nos EUA e Outros Países')
+       plt.axis('equal')
+
+       
