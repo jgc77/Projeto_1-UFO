@@ -76,7 +76,7 @@ class Plot_color:
         plt.xticks(rotation=rt)
         
      
-   #Função para plotar mapa    
+   #Função para plotar mapa mundi    
     def mapa(data,eixo1, eixo2):
         
         #importar mapa mundi
@@ -91,9 +91,10 @@ class Plot_color:
         ax.set_yticks([])
         
         #plotar marcadores
-        data.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='y', marker='.', s=20, edgecolor='b', linewidth=0.4)
-      
-    def mapa_us(data,eixo1, eixo2, xlabel, ylabel):
+        data.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='y', marker='.', s=30, edgecolor='b', linewidth=0.4)
+    
+    #Função para plotar mapa dos Estados Unidos 
+    def mapa_us(data, eixo1, eixo2, xlabel, ylabel):
         
         #Filtar Estados Unidos de data
         data_us = data[data['country'] == 'us']
@@ -112,4 +113,29 @@ class Plot_color:
         
         #plotar marcadores
         data_us.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', marker='.', s=20, edgecolor='b', linewidth=0.4)
+    
+    #Plotar grafico em pizza com distribuição de ocorrencias por continente 
+    def c_ocorren(data):    
+        def get_continent(latitude, longitude):
         
+            #if pd.notna(latitude) and pd.notna(longitude):
+                if -60 <= latitude <= 85 and ((-170 <= longitude <= -35) or (35 <= longitude <= 170)):
+                    return 'Americas'
+                elif -60 <= latitude <= 85:
+                    return 'Eurasia'
+                elif -60 <= latitude <= -35 and 30 <= longitude <= 150:
+                    return 'Africa'
+                elif -60 <= latitude <= 85 and -30 <= longitude <= 180:
+                    return 'Europe'
+                elif -60 <= latitude <= 85 and -180 <= longitude <= -90:
+                    return 'Australia'
+                return 'Other'
+    
+    
+        data['continent'] = data.apply(lambda row: get_continent(row['latitude'], row['longitude']), axis=1)
+        ocorrencias_por_continente = data['continent'].value_counts()
+
+        plt.figure(figsize=(15, 15))
+        ocorrencias_por_continente.plot(kind='pie', autopct='%1.1f%%', colors=['skyblue', 'lightgreen', 'lightcoral', 'lightyellow', 'lightpink', 'lightgray'])
+        plt.title('Distribuição das Ocorrências de UFOs por Continente')
+        plt.axis('equal')
