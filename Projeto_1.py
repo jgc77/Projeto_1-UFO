@@ -53,5 +53,5 @@ Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do
 Plot_color.mapa(dt_ufo,'longitude', 'latitude')
 Plot_color.mapa_us(dt_ufo,'longitude', 'latitude', 'longitude', 'latitude')
 
-
-
+Plot_color.c_ocorren(dt_ufo)
+ocorrencias_por_continente = dt_ufo['continent'].value_counts()
