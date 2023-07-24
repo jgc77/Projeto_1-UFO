@@ -7,11 +7,12 @@ UFO Sightings
 
 '''
 import matplotlib.cm as cm
-#import numpy as np
+import numpy as np
 import pandas as pd
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 #import geopandas as gpd
 from plot_color import Plot_color
+
 
 
 #from plot_colorful_barchart import Plot_color
@@ -34,6 +35,7 @@ dt_ufo['date posted'] = pd.to_datetime(dt_ufo['date posted'], errors='coerce') #
 dt_ufo['shape'] = dt_ufo['shape'].str.replace('Other', 'Other/Unknown') #retirando other, unknow do shape.
 dt_ufo.sort_values('datetime', inplace=True) #Ordenar datetime do mais antigo para o mais recente.
 dt_ufo.rename(columns={'longitude ': 'longitude'}, inplace = True)
+dt_ufo['duration (seconds)'] = pd.to_numeric(dt_ufo['duration (seconds)'],errors='coerce')
 
 #############################Avistamentos#####################################
 
@@ -44,6 +46,12 @@ Plot_color.bar(ocorrencias_ano, 'green', 'Avistamento por Ano', 'Quantidade de o
 #Horas com mais avistamentos
 ocorrencias_hora = dt_ufo['hour'].value_counts().sort_index()
 Plot_color.linha(ocorrencias_hora, 'red', 'Quantidade de Ufos por hora', 'Hora', 'Quantidade de ocorrências', 0, True)
+
+#Tempo de avistamento x hora do dia
+hour = dt_ufo[['hour', 'duration (seconds)']]
+hour_second = pd.DataFrame(hour.groupby('hour')['duration (seconds)'].mean())
+hour_min = hour_second['duration (seconds)']/60
+Plot_color.c_bar(hour_min, cm.inferno, 'Tempo de avistamento x Hora do dia', 'Tempo de avistamento', 'Hora do dia', 0, False)
 
 #Tipos do avistamentos
 ocorrencias_tipo = dt_ufo['shape'].value_counts().head(15)
