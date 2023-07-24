@@ -9,6 +9,9 @@ import matplotlib.cm as cm
 import numpy as np
 import pandas as pd
 import geopandas as gpd
+#from matplotlib.collections import LineCollection
+#from matplotlib.colors import Normalize
+
 
 
 
@@ -39,6 +42,38 @@ class Plot_color:
         
         #Rotação
         plt.xticks(rotation=rt)
+        plt.xticks(data.index[::2], data.index[::2])
+        
+    '''
+    #Função para plotar em degrade
+    def c_line(data):
+        
+        x = np.arange(len(data))  # Índices numéricos para representar as horas
+        y = data["duration (seconds)"].values  # Valores da quantidade para cada hora
+
+        # Calcula o primeiro derivado dos dados y
+        dydx = np.gradient(y)
+
+        # Criação dos pontos e das segmentos usando os arrays x e y
+        points = np.array([x, y]).T.reshape(-1, 1, 2)
+        segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
+        fig, ax = plt.subplots(figsize=(10, 6), dpi=300)
+        
+        # Cria uma normalização para mapear os pontos para as cores do mapa de cores
+        norm = Normalize(dydx.min(), dydx.max())
+        lc = LineCollection(segments, cmap='viridis', norm=norm)
+        lc.set_array(dydx)
+        lc.set_linewidth(2)
+        line = ax.add_collection(lc)
+        fig.colorbar(line, ax=ax)
+        plt.grid(True)
+        
+
+        ax.set_xlim(x.min(), x.max())
+        ax.set_ylim(y.min() - 38, y.max() + 38)  # Ajuste o limite vertical conforme necessário
+        plt.show()
+    '''
     
     #Função para plotar em barra
     def bar(data, cor, title ,xlabel, ylabel, rt, grid):
@@ -109,8 +144,8 @@ class Plot_color:
         ax.set_facecolor('#B0C4DE')
 
         #legendas
-        ax.set_xlabel(xlabel)
-        ax.set_ylabel(ylabel)
+        ax.set_xticks([])
+        ax.set_yticks([])
         
         #plotar marcadores
         data_us.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', marker='.', s=20, edgecolor='b', linewidth=0.4)
