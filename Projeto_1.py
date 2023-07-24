@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
-"""
+'''
 Projeto 1 de LPAA - Análise e Exploração de Dados 
 UFO Sightings
 
 @author: joaog
 
-"""
+'''
 import matplotlib.cm as cm
-import numpy as np
+#import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import geopandas as gpd
+#import matplotlib.pyplot as plt
+#import geopandas as gpd
 from plot_color import Plot_color
-from geopy.geocoders import Nominatim
 
 
 #from plot_colorful_barchart import Plot_color
@@ -54,16 +53,7 @@ Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do
 Plot_color.mapa(dt_ufo,'longitude', 'latitude')
 Plot_color.mapa_us(dt_ufo,'longitude', 'latitude', 'longitude', 'latitude')
 
-dt_sem_duplicados = dt_ufo.drop_duplicates(subset=['latitude', 'longitude'])
-Plot_color.c_ocorren(dt_sem_duplicados)
+#Ocorrências por países
+country = dt_ufo['country'].value_counts()
+Plot_color.c_ocorren(country, ['#fa5f49', '#add5fa', '#f9d99a', '#f9a59a', '#95b8f6'], 'Ocorrência por país')
 
-def obter_pais(latitude, longitude):
-    geolocator = Nominatim(user_agent="conversor_geopy")
-    localizacao = geolocator.reverse((latitude, longitude), exactly_one=True)
-    if localizacao:
-        return localizacao.raw.get('address', {}).get('country', 'Desconhecido')
-    else:
-        return 'Desconhecido'
-    
-# Criar uma nova coluna 'Pais' no DataFrame com os países das coordenadas
-dt_sem_duplicados['Pais'] = dt_sem_duplicados.apply(lambda row: obter_pais(row['latitude'], row['longitude']), axis=1)
