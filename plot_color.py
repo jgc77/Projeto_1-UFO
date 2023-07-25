@@ -151,17 +151,37 @@ class Plot_color:
         data_us.plot.scatter(x=eixo1, y=eixo2, ax=ax, color='red', marker='.', s=20, edgecolor='b', linewidth=0.4)
     
     #Plotar grafico em pizza com distribuição de ocorrencias por continente 
-    def c_ocorren(data, colors, title):    
+    def c_ocorren(data, colors, title, labels, explode):    
         
         plt.subplots(figsize=(18, 10))
-        explode = (0.1,0.1,0.2,0.4,0.7)
-        labels = ['United States', 'Canada', 'United Kingdom', 'Australia', 'Germany']
         
-        
-        plt.pie(data, explode=explode, colors= colors, autopct='%1.1f%%', textprops={'fontsize': 12}, labels= None, shadow=True)
+        plt.pie(data, explode=explode, colors= colors, autopct='%1.1f%%', textprops={'fontsize': 22}, labels= None, shadow=None)
         
         plt.legend(labels=labels, loc='lower right')
         plt.title(title, fontsize = 20)
         plt.axis('equal')
         plt.xticks(rotation=45, fontsize=15)
-       
+
+    def dici_state(data):
+        estados = {
+            'ca': 'California',
+            'wa': 'Washington',
+            'fl': 'Florida',
+            'tx': 'Texas',
+            'ny': 'New York',
+            'az': 'Arizona',
+            'il': 'Illinois',
+            'pa': 'Pennsylvania',
+            'oh': 'Ohio',
+            'mi': 'Michigan',
+            'nc': 'North Carolina',
+            'or': 'Oregon',
+            'mo': 'Missouri',
+            'nj': 'New Jersey',
+            'co': 'Colorado',
+            'va': 'Virginia',
+            'o' : 'Outros'
+        }
+        
+        data.index = data.index.map(estados)
+        return data
