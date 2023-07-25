@@ -18,7 +18,7 @@ import geopandas as gpd
 class Plot_color:
     
     #Função para plotar em degrade
-    def c_bar(data, colormap, title, xlabel, ylabel, rt, grid):
+    def c_bar(data, colormap, title, xlabel, ylabel, rt, grid, jump):
         
         #Definindo tamanho e dpi do gráfico
         plt.figure(figsize=(10, 6), dpi=300)
@@ -42,7 +42,7 @@ class Plot_color:
         
         #Rotação
         plt.xticks(rotation=rt)
-        plt.xticks(data.index[::2], data.index[::2])
+        plt.xticks(data.index[::jump], data.index[::jump])
         
     '''
     #Função para plotar em degrade
