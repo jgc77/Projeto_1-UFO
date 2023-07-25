@@ -32,7 +32,7 @@ dt_ufo['duration (seconds)'] = pd.to_numeric(dt_ufo['duration (seconds)'],errors
 
 ######## Tipos do avistamentos ########
 ocorrencias_tipo = dt_ufo['shape'].value_counts().head(15)
-Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Forma', 'Quantidade', 45, False,1)
+Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Forma', 'Quantidade', 45, False,1,'upper left', False)
 
 
 ######## Ocorrências por países ########
@@ -67,19 +67,18 @@ Plot_color.c_ocorren(state, cmap2, 'Ocorrência por estado dos Estados Unidos', 
 
 ######## Numero de ocorrencias por ano ########
 ocorrencias_ano = dt_ufo['year'].value_counts().sort_index() #contando as ocorrências por ano.
-Plot_color.bar(ocorrencias_ano, 'k', 'Avistamento por Ano', 'Quantidade de ocorrências', 'Ano', 0, True)
-
+Plot_color.barh(ocorrencias_ano, 'k', 'Avistamento por Ano', 'Quantidade de ocorrências', 'Ano', 0, True,7)
 
 ######## Horas com mais avistamentos ########
 ocorrencias_hora = dt_ufo['hour'].value_counts().sort_index()
-Plot_color.linha(ocorrencias_hora, 'red', 'Quantidade de Ufos por hora', 'Hora', 'Quantidade de ocorrências', 0, True)
+Plot_color.linha(ocorrencias_hora, 'red', 'Quantidade de ocorrências por hora', 'Hora', 'Quantidade de ocorrências', 0, True)
 
 
 ######## Tempo de avistamento x hora do dia ########
 hour = dt_ufo[['hour', 'duration (seconds)']]
 hour_second = pd.DataFrame(hour.groupby('hour')['duration (seconds)'].mean())
-hour_min = hour_second['duration (seconds)']/60
-Plot_color.c_bar(hour_min, cm.plasma, 'Tempo de avistamento x Hora do dia', 'Tempo de avistamento(min)', 'Hora do dia', 0, False,2)
+hour_min = hour_second['duration (seconds)']/3600
+Plot_color.c_bar(hour_min, cm.plasma, 'Tempo de avistamento x Hora do dia', 'Hora do dia', 'Tempo de avistamento(hr)', 0, False,2, 'upper left', True)
 
 
 ######## Mapa de disperção ########
@@ -88,11 +87,11 @@ Plot_color.mapa_us(dt_ufo,'longitude', 'latitude', 'longitude', 'latitude')
 
 
 ######## Duração vs forma ########
-grupo_avistamentos_o = dt_ufo.assign(**{'duration (min)': dt_ufo['duration (seconds)'] / 60}) \
+grupo_avistamentos_o = dt_ufo.assign(**{'duration (min)': dt_ufo['duration (seconds)'] / 3600}) \
                               .groupby('shape')['duration (min)'] \
                               .mean() \
                               .sort_values(ascending=False) \
                               .head(20)
                               
-Plot_color.c_bar(grupo_avistamentos_o, cm.jet, 'Media de avistamento x Tipo de Avistamento', 'Tipo de avistamento', 'Media de avistamento(min)', 45, False,1)
+Plot_color.c_bar(grupo_avistamentos_o, cm.jet, 'Tempo de avistamento x Forma', 'Tipo de avistamento', 'tempo de avistamento(hr)', 45, False,1, 'upper right', False)
 
