@@ -37,7 +37,42 @@ dt_ufo.sort_values('datetime', inplace=True) #Ordenar datetime do mais antigo pa
 dt_ufo.rename(columns={'longitude ': 'longitude'}, inplace = True)
 dt_ufo['duration (seconds)'] = pd.to_numeric(dt_ufo['duration (seconds)'],errors='coerce')
 
-#############################Avistamentos#####################################
+#########################################Gráficos#########################################
+
+#_______________Analise qualitativa_______________#
+
+######## Tipos do avistamentos ########
+ocorrencias_tipo = dt_ufo['shape'].value_counts().head(15)
+Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do avistamento', 'Quantidade', 45, False)
+
+######## Ocorrências por países ########
+country = dt_ufo['country'].value_counts()
+
+cmap = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
+          '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+
+label= ['United States', 'Canada', 'United Kingdom', 'Australia', 'Germany']
+
+explode = (0.1,0.1,0.2,0.4,0.7)
+
+Plot_color.c_ocorren(country, cmap, 'Ocorrência por paises', label, explode)
+
+######## Ocorrências por estado dos Estados Unidos ########
+dt_us = dt_ufo[dt_ufo['country'] == 'us']
+state = dt_ufo['state'].value_counts()
+
+state[17:] = state[17:].sum()
+state = state[:18]
+state.index.values[17] = "o"
+
+cmap2 = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd',
+        '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
+        '#aec7e8', '#ffbb78', '#98df8a', '#ff9896', '#c5b0d5',
+        '#c49c94', '#f7b6d2', '#c7c7c7']
+
+Plot_color.dici_state(state)
+Plot_color.c_ocorren(state, cmap2, 'Ocorrência por estado dos Estados Unidos', state.index, None)
+
 
 # Numero de ocorrencias por ano
 ocorrencias_ano = dt_ufo['year'].value_counts().sort_index() #contando as ocorrências por ano.
@@ -53,15 +88,11 @@ hour_second = pd.DataFrame(hour.groupby('hour')['duration (seconds)'].mean())
 hour_min = hour_second['duration (seconds)']/60
 Plot_color.c_bar(hour_min, cm.inferno, 'Tempo de avistamento x Hora do dia', 'Tempo de avistamento', 'Hora do dia', 0, False)
 
-#Tipos do avistamentos
-ocorrencias_tipo = dt_ufo['shape'].value_counts().head(15)
-Plot_color.c_bar(ocorrencias_tipo, cm.inferno, 'Tipos de avistamentos', 'Tipo do avistamento', 'Quantidade', 45, False)
+
 
 #Mapa de disperção
 Plot_color.mapa(dt_ufo,'longitude', 'latitude')
 Plot_color.mapa_us(dt_ufo,'longitude', 'latitude', 'longitude', 'latitude')
 
-#Ocorrências por países
-country = dt_ufo['country'].value_counts()
-Plot_color.c_ocorren(country, ['#fa5f49', '#add5fa', '#f9d99a', '#f9a59a', '#95b8f6'], 'Ocorrência por país')
+
 
