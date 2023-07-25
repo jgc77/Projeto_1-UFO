@@ -12,13 +12,16 @@ import geopandas as gpd
 class Plot_color:
     
     # Função para plotar gráfico de barras com degradê de cores
-    def c_bar(data, colormap, title, xlabel, ylabel, rotation, grid, x_tick_jump):
+    def c_bar(data, colormap, title, xlabel, ylabel, rotation, grid, x_tick_jump, leg, media):
         plt.figure(figsize=(10, 6), dpi=300)
         norm_valores = (data - np.min(data)) / (np.max(data) - np.min(data))
         plt.bar(data.index, data.values, color=colormap(norm_valores))
-        plt.title(title,fontsize=12)
+        if media == True:
+            mean_value = np.mean(data.values)
+            plt.legend([f'Média: {mean_value:.1f}h'], loc= leg, fontsize=12)
+        plt.title(title,fontsize=15)
         plt.xlabel(xlabel,fontsize=12)
-        plt.ylabel(ylabel,fontsize=15)
+        plt.ylabel(ylabel,fontsize=12)
         plt.grid(grid)
         sm = plt.cm.ScalarMappable(cmap=colormap, norm=plt.Normalize(vmin=np.min(data), vmax=np.max(data)))
         sm._A = []
@@ -27,24 +30,30 @@ class Plot_color:
         plt.xticks(data.index[::x_tick_jump], data.index[::x_tick_jump])
 
     # Função para plotar gráfico de barras
-    def bar(data, cor, title ,xlabel, ylabel, rotation, grid):
+    def barh(data, cor, title ,xlabel, ylabel, rotation, grid, y_tick_jump):
         plt.figure(figsize=(10, 6), dpi=300)
         plt.barh(data.index, data.values, color=cor)
+        mean_value = np.mean(data.values)
+        plt.legend([f'Média: {mean_value:.2f}'], loc='center right', fontsize=12)
         plt.xlabel(xlabel, fontsize=12)
         plt.ylabel(ylabel, fontsize=12)
         plt.title(title, fontsize=15)
         plt.grid(grid)
         plt.xticks(rotation=rotation)
+        plt.yticks(data.index[::y_tick_jump], data.index[::y_tick_jump])
 
     # Função para plotar gráfico de linhas
     def linha(data, cor, title ,xlabel, ylabel, rotation, grid):
         plt.figure(figsize=(10, 6), dpi=300)
         plt.plot(data.index, data.values, color=cor)
+        moda_value = np.argmax(data.index)
+        plt.legend([f'Moda: {moda_value:}h'], loc='upper left', fontsize=12)
         plt.xlabel(xlabel,fontsize=12)
         plt.ylabel(ylabel,fontsize=12)
         plt.title(title,fontsize=15)
         plt.grid(grid)
         plt.xticks(rotation=rotation)
+
 
     # Função para plotar mapa mundi
     def mapa(data,eixo1, eixo2):
